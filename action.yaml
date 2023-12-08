@@ -22,5 +22,7 @@ inputs:
 runs:
   using: composite
   steps:
-      - run: cargo build --release
-      - run: ./target/release/versioning ${{ inputs.repository }} ${{ inputs.from }} ${{ inputs.to }} ${{ inputs.file }}
+    - shell: bash
+      run: cargo build --release
+    - shell: bash
+      run: ./target/release/versioning ${{ inputs.repository }} ${{ inputs.from }} ${{ inputs.to }} ${{ inputs.file }}
