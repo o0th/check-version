@@ -9,11 +9,11 @@ inputs:
   from:
     description: From branch
     required: true
-    default: ${{ github.event.repository.default_branch }}
+    default: ${{ github.ref }}
   to:
     description: To branch
     requried: true
-    default: ${{ github.ref }}
+    default: ${{ github.event.repository.default_branch }}
   file:
     description: File
     required: true
