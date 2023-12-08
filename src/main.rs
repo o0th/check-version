@@ -39,8 +39,20 @@ async fn main() -> ExitCode {
         Err(e) => return e,
     };
 
-    println!("{:?}", from_version);
-    println!("{:?}", to_version);
+    let from_version = match split_version(&from_version) {
+        Ok(version) => version,
+        Err(e) => return e,
+    };
+
+    let to_version = match split_version(&to_version) {
+        Ok(version) => version,
+        Err(e) => return e,
+    };
+
+    if !valid_version(from_version, to_version) {
+        println!("Error: Invalid version");
+        return ExitCode::FAILURE;
+    }
 
     return ExitCode::SUCCESS;
 }
@@ -109,4 +121,54 @@ fn get_version(file: &str) -> Result<String, ExitCode> {
     };
 
     return Ok(version.to_string().replace('"', ""));
+}
+
+fn split_version(version: &str) -> Result<(u32, u32, u32), ExitCode> {
+    let version = version.split(".").collect::<Vec<&str>>();
+    if version.len() != 3 {
+        eprintln!("Error: Invalid version");
+        return Err(ExitCode::FAILURE);
+    }
+
+    let major = match version[0].parse::<u32>() {
+        Ok(major) => major,
+        Err(e) => {
+            eprintln!("Error: {}", e);
+            return Err(ExitCode::FAILURE);
+        }
+    };
+
+    let minor = match version[1].parse::<u32>() {
+        Ok(minor) => minor,
+        Err(e) => {
+            eprintln!("Error: {}", e);
+            return Err(ExitCode::FAILURE);
+        }
+    };
+
+    let patch = match version[2].parse::<u32>() {
+        Ok(patch) => patch,
+        Err(e) => {
+            eprintln!("Error: {}", e);
+            return Err(ExitCode::FAILURE);
+        }
+    };
+
+    return Ok((major, minor, patch));
+}
+
+fn valid_version(from: (u32, u32, u32), to: (u32, u32, u32)) -> bool {
+    if from.0 > to.0 {
+        return true;
+    }
+
+    if from.0 == to.0 && from.1 > to.1 {
+        return true;
+    }
+
+    if from.0 == to.0 && from.1 == to.1 && from.2 > to.2 {
+        return true;
+    }
+
+    return false;
 }
