@@ -17,7 +17,7 @@ inputs:
   file:
     description: File
     required: true
-    default: cargo
+    default: Cargo.toml 
 
 runs:
   using: composite
