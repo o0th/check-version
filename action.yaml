@@ -1,0 +1,11 @@
+name: Versioning 
+description: Check versioning
+
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      run: |
+        curl -SLO https://github.com/o0th/check-version/releases/download/0.1.0/check-version
+        chmod +x check-version
+        mv check-version $GITHUB_WORKSPACE

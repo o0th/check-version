@@ -1,0 +1,34 @@
+---
+name: release 
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - src/**
+      - Cargo.toml
+      - Cargo.lock
+      - action.yaml
+
+jobs:
+  testing:
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@v3
+      - run: cargo build --release
+
+      - uses: o0th/get-version@0.2.0
+      - run: echo "VERSION=$(get-version)" >> $GITHUB_ENV
+
+      - uses: o0th/create-tag@0.1.5
+        with:
+          tag: ${{ env.VERSION }}
+
+      - uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ env.VERSION }}
+          name: "check-version ${{ env.VERSION }}"
+          bodyFile: ".github/changelogs/${{ env.VERSION }}.md"
+          artifacts: "./target/release/check-version"
