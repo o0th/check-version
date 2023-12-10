@@ -1,28 +1,11 @@
 name: Versioning 
 description: Check versioning
 
-inputs:
-  repository:
-    description: Repository
-    required: true
-    default: ${{ github.repository }}
-  from:
-    description: From branch
-    required: true
-    default: ${{ github.ref }}
-  to:
-    description: To branch
-    requried: true
-    default: ${{ github.event.repository.default_branch }}
-  file:
-    description: File
-    required: true
-    default: Cargo.toml 
-
 runs:
   using: composite
   steps:
     - shell: bash
-      run: cargo build --release
-    - shell: bash
-      run: ./target/release/versioning ${{ inputs.repository }} ${{ inputs.from }} ${{ inputs.to }} ${{ inputs.file }}
+      run: |
+        curl -SLO https://github.com/o0th/check-version/releases/download/0.1.0/check-version
+        chmod +x check-version
+        mv check-version $GITHUB_WORKSPACE
