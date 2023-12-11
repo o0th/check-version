@@ -23,7 +23,12 @@ jobs:
       - run: echo "VERSION=$(get-version)" >> $GITHUB_ENV
 
       - uses: o0th/create-tag@0.2.0
-      - run: create-tag ${{ context.repo.owner }} ${{ context.repo.repo }} refs/tags/${{ env.VERSION }} ${{ context.sha }}
+      - run: |
+        local username=$(echo "{{ github.repository }}" | cut -d '/' -f1)
+        local repository=$(echo "{{ github.repository }}" | cut -d '/' -f2)
+        local version=${{ env.VERSION }}
+        local sha=${{ github.sha }}
+        create-tag $username $repository $version $sha
 
       - uses: ncipollo/release-action@v1
         with:
