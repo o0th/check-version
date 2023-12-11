@@ -24,10 +24,10 @@ jobs:
 
       - uses: o0th/create-tag@0.2.0
       - run: |
-        local username=$(echo "{{ github.repository }}" | cut -d '/' -f1)
-        local repository=$(echo "{{ github.repository }}" | cut -d '/' -f2)
-        local version=${{ env.VERSION }}
-        local sha=${{ github.sha }}
+        username=$(echo "{{ github.repository }}" | cut -d '/' -f1)
+        repository=$(echo "{{ github.repository }}" | cut -d '/' -f2)
+        version=${{ env.VERSION }}
+        sha=${{ github.sha }}
         create-tag $username $repository $version $sha
 
       - uses: ncipollo/release-action@v1
