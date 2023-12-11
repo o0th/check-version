@@ -5,11 +5,6 @@ on:
   push:
     branches:
       - master
-    paths:
-      - src/**
-      - Cargo.toml
-      - Cargo.lock
-      - action.yaml
 
 jobs:
   testing:
