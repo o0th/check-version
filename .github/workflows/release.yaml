@@ -18,7 +18,7 @@ jobs:
       - run: echo "VERSION=$(get-version)" >> $GITHUB_ENV
 
       - uses: o0th/create-tag@0.2.0
-      - run: echo $(echo "$GITHUB_REPOSITORY" | sed ":/: :")
+      - run: echo "$(echo '$GITHUB_REPOSITORY' | sed ':/: :')"
       - run: create-tag $(echo "$GITHUB_REPOSITORY" | sed "s|/| |") ${{ github.sha }} refs/tags/${{ env.VERSION }}
       - uses: ncipollo/release-action@v1
         with:
