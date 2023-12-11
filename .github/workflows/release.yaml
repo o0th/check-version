@@ -24,8 +24,8 @@ jobs:
 
       - uses: o0th/create-tag@0.2.0
       - run: |
-        username=$(echo "${{ github.repository }}" | cut -d '/' -f1)
-        repository=$(echo "${{ github.repository }}" | cut -d '/' -f2)
+        username=$(echo "$GITHUB_REPOSITORY" | cut -d '/' -f1)
+        repository=$(echo "$GITHUB_REPOSITORY" | cut -d '/' -f2)
         version=${{ env.VERSION }}
         sha=${{ github.sha }}
         create-tag ${{ github.repository }} $repository $version $sha
