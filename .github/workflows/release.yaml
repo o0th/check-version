@@ -24,11 +24,7 @@ jobs:
 
       - uses: o0th/create-tag@0.2.0
       - run: |
-        username=$(echo "$GITHUB_REPOSITORY" | cut -d '/' -f1)
-        repository=$(echo "$GITHUB_REPOSITORY" | cut -d '/' -f2)
-        version=${{ env.VERSION }}
-        sha=${{ github.sha }}
-        create-tag ${{ github.repository }} $repository $version $sha
+        create-tag $(echo "$GITHUB_REPOSITORY" | sed 's#/# #') ${{ env.VERSION }} ${{ github.sha }}
 
       - uses: ncipollo/release-action@v1
         with:
