@@ -20,8 +20,15 @@ jobs:
       - uses: o0th/get-version@0.2.1
       - run: echo "VERSION=$(get-version)" >> $GITHUB_ENV
 
-      - uses: o0th/create-tag@0.2.0
-      - run: create-tag o0th check-version $GITHUB_SHA ${{ env.VERSION }}
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: `refs/tags/${process.env.VERSION}`,
+              sha: context.sha
+            })
 
       - uses: ncipollo/release-action@v1
         with:
